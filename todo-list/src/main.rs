@@ -5,7 +5,9 @@ fn main() {
 }
 
 fn promise_world() {
-    loop {
+    '_PromiseWorld: loop {
+        println!("___________________________________");
+
         println!("\n\n\n📝 WELCOME TO YOUR PROMISE WORLD!");
         println!("=================================");
         println!("\nA place where you promise yourself to complete what matters.\n");
@@ -30,6 +32,16 @@ fn promise_world() {
             continue;
         };
 
-        println!("Choices : {:?}", choice);
+        match choice {
+            1 => println!("Choices : {:?}", choice),
+            2 => println!("Choices : {}", choice),
+            3 => println!("Choices : {}", choice),
+            4 => println!("Choices : {}", choice),
+            5 => {
+                println!("Exiting... 👋");
+                break '_PromiseWorld;
+            }
+            _ => println!("Invalid choice!"),
+        }
     }
 }
