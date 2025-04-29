@@ -1,50 +1,46 @@
+# 🚀 Rust Practice Projects
 
-
-# Rust Practice Projects
-
-## Description
-This repository contains my Rust practice projects.  
-Each project solves a real-world small problem and helps improve Rust skills.
+Welcome to the **Rust Practice Projects** repository! This collection is designed to help you learn, practice, and master Rust by building real, useful, and modern projects.
 
 ---
 
-## 📚 Project List
+## 📂 Projects Included
 
-| No. | Project Name         | Description                           |
-|---- |--------------------- |-------------------------------------- |
-| 1   | To-Do List App        | Manage tasks: add, list, delete tasks |
-| 2   | Simple Calculator     | Perform +, -, *, / operations         |
-| 3   | Password Generator    | Generate random strong passwords      |
-| 4   | File Organizer        | Move files into folders by file type  |
-| 5   | Weather App (API)     | Get weather info via API              |
+- [`todo-list`](./todo-list): A beautiful, motivational CLI app for tracking your personal promises and goals. Includes a project diagram, demo video, and full documentation.
 
 ---
 
-## 🛠 How to Run Any Project
-```bash
-cd project-folder-name
-cargo run
-```
+## 🧑‍💻 Getting Started
 
-Example:
-```bash
-cd todo-list
-cargo run
-```
-
----
-
-## ⚡ Requirements
-- Rust installed (https://www.rust-lang.org/)
+1. **Clone this repository:**
+    ```bash
+    git clone https://github.com/nishantcoder108/rust-practice-projects.git
+    cd rust-practice-projects
+    ```
+2. **Explore each project:**
+    - Each project has its own folder with a README and setup instructions.
+    - Start with `todo-list` for a hands-on Rust CLI experience.
 
 ---
 
-## 👨‍💻 Author
-- [NishantCoder108](https://github.com/NishantCoder108)
+## 🤔 Why Practice Rust?
+
+- **Performance:** Rust is blazing fast and memory safe.
+- **Learning:** Building real projects is the best way to learn.
+- **Community:** Join a growing ecosystem of passionate developers.
 
 ---
 
-✅ Clean  
-✅ Easy to extend in future  
-✅ Good for showing to employers or community
+## 🙌 Contributing
 
+Contributions, ideas, and feedback are always welcome! Feel free to open an issue or submit a pull request to add new projects, improve documentation, or suggest learning resources.
+
+---
+
+## 📬 Contact
+
+- Twitter/X: [@nishantweb3](https://x.com/nishantweb3)
+
+---
+
+Happy coding and keep building with Rust! 🦀
