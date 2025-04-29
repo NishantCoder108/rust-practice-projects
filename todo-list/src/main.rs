@@ -42,15 +42,10 @@ fn promise_world() {
         };
 
         match choice {
-            1 => {
-                add_promise();
-            }
-            2 => {
-                println!("\n\n📋 Your Promises:\n");
-                view_promises();
-            }
+            1 => add_promise(),
+            2 => view_promises(),
             3 => complete_promise(),
-            4 => println!("Choices : {}", choice),
+            4 => reaffirm_promise(),
             5 => {
                 println!("Exiting... 👋");
                 break '_PromiseWorld;
@@ -107,9 +102,8 @@ fn add_promise() {
 }
 
 fn view_promises() {
-    use std::fs;
-    use std::io::{self, Write};
-    let contents = match fs::read_to_string("promises.json") {
+    println!("\n\n📋 Your Promises:\n");
+    let contents = match std::fs::read_to_string("promises.json") {
         Ok(s) => s,
         Err(e) => {
             if e.kind() == std::io::ErrorKind::NotFound {
@@ -209,17 +203,76 @@ fn complete_promise() {
     let _ = io::stdin().read_line(&mut String::new());
 }
 
-// fn reaffirm_promise() {
-//     let mut file = std::fs::File::open("promises.txt").unwrap();
-//     let mut contents = String::new();
-//     file.read_to_string(&mut contents).unwrap();
-//     if contents.is_empty() {
-//         let mut file = std::fs::File::create("promises.txt").unwrap();
-//         file.write_all(format!("{}\n{}\n", promise, promisetime).as_bytes())
-//             .unwrap();
-//     } else {
-//     }
-//     let mut file = std::fs::File::create("promises.txt").unwrap();
-//     file.write_all(format!("{}\n{}\n", promise, promisetime).as_bytes())
-//         .unwrap();
-// }
+fn reaffirm_promise() {
+    println!("Reaffirm your promises! \n");
+    let contents = match std::fs::read_to_string("promises.json") {
+        Ok(s) => s,
+        Err(e) => {
+            if e.kind() == std::io::ErrorKind::NotFound {
+                println!("No promises found!");
+                return;
+            } else {
+                eprintln!("Failed to read promises.json: {}", e);
+                return;
+            }
+        }
+    };
+    let mut data: Vec<Promise> = if contents.trim().is_empty() {
+        Vec::new()
+    } else {
+        match serde_json::from_str(&contents) {
+            Ok(d) => d,
+            Err(e) => {
+                eprintln!("Failed to parse promises.json: {}", e);
+                return;
+            }
+        }
+    };
+    if data.is_empty() {
+        println!("No promises to reaffirm!");
+        return;
+    }
+    println!("Which promise do you want to reaffirm (edit)?");
+    for (i, promise) in data.iter().enumerate() {
+        println!("{}. {} ({})", i + 1, promise.text, promise.time);
+    }
+    print!("\nEnter the number of the promise to reaffirm: ");
+    io::stdout().flush().unwrap();
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).unwrap();
+
+    let idx: usize = match input.trim().parse::<usize>() {
+        Ok(num) if num > 0 && num <= data.len() => num - 1,
+        _ => {
+            println!("Invalid selection.");
+            return;
+        }
+    };
+
+    // Prompt for new text and time
+    print!("Enter new promise text (leave empty to keep unchanged): ");
+    io::stdout().flush().unwrap();
+    let mut new_text = String::new();
+    io::stdin().read_line(&mut new_text).unwrap();
+    let new_text = new_text.trim();
+
+    if !new_text.is_empty() {
+        data[idx].text = new_text.to_string();
+    }
+    print!("Enter new time (leave empty to keep unchanged): ");
+    io::stdout().flush().unwrap();
+
+    let mut new_time = String::new();
+    io::stdin().read_line(&mut new_time).unwrap();
+    let new_time = new_time.trim();
+    if !new_time.is_empty() {
+        data[idx].time = new_time.to_string();
+    }
+
+    let json = serde_json::to_string_pretty(&data).unwrap();
+    write("promises.json", json).unwrap();
+
+    println!("\nPromise updated! \n\n");
+    println!("Done reaffirming your promises? Press Enter to continue...");
+    let _ = io::stdin().read_line(&mut String::new());
+}
