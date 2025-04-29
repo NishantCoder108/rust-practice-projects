@@ -1,7 +1,19 @@
-# 📝 Promise World - CLI Todo/Promise Tracker
+# 📝 Promise World 
 
 Welcome to **Promise World**: a simple, elegant, and motivational command-line app to track your daily promises and goals!  
 Stay accountable, reaffirm your intentions, and celebrate your wins — all from your terminal.
+
+---
+
+## 🗺️ Project Diagram
+
+![Todo List Diagram](todolist-diagram.svg)
+
+---
+
+## 🎬 Demo Video
+
+[![Watch the demo](promise.png)](https://youtu.be/RrfKRRF68mY)
 
 ---
 

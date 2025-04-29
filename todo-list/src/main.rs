@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::fs::{File, OpenOptions, write};
+use std::fs::{OpenOptions, write};
 use std::io::{self, Read, Write};
 #[derive(Serialize, Deserialize)]
 struct Promise {
