@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::fs::{File, OpenOptions, write};
 use std::io::{self, Read, Write};
-use std::io::{BufRead, BufReader};
 #[derive(Serialize, Deserialize)]
 struct Promise {
     text: String,
@@ -50,7 +49,7 @@ fn promise_world() {
                 println!("\n\n📋 Your Promises:\n");
                 view_promises();
             }
-            3 => println!("Choices : {}", choice),
+            3 => complete_promise(),
             4 => println!("Choices : {}", choice),
             5 => {
                 println!("Exiting... 👋");
@@ -173,10 +172,41 @@ fn complete_promise() {
         .unwrap();
     let mut contents = String::new();
     file.read_to_string(&mut contents).unwrap();
-    let data: Vec<Promise> = serde_json::from_str(&contents).unwrap();
-    for promise in data {
-        println!("{}", promise.text);
+
+    let mut data: Vec<Promise> = if contents.trim().is_empty() {
+        Vec::new()
+    } else {
+        serde_json::from_str(&contents).unwrap()
+    };
+    if data.is_empty() {
+        println!("No promises to complete!");
+        return;
     }
+    println!("\n\nWhich promise did you complete?");
+    for (i, promise) in data.iter().enumerate() {
+        println!("{}. {} ({})", i + 1, promise.text, promise.time);
+    }
+
+    print!("\nEnter the number of the completed promise: ");
+    io::stdout().flush().unwrap();
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).unwrap();
+    let idx: usize = match input.trim().parse::<usize>() {
+        Ok(num) if num > 0 && num <= data.len() => num - 1,
+        _ => {
+            println!("Invalid selection.");
+            return;
+        }
+    };
+    let completed = data.remove(idx);
+    let json = serde_json::to_string_pretty(&data).unwrap();
+    write("promises.json", json).unwrap();
+    println!(
+        "\n\nCongrats! You completed: {} ({})\n\n",
+        completed.text, completed.time
+    );
+    println!("Done reflecting on your promises? Press Enter to continue...");
+    let _ = io::stdin().read_line(&mut String::new());
 }
 
 // fn reaffirm_promise() {
