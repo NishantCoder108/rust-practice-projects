@@ -1,5 +1,4 @@
-use std::io::{self, Read};
-
+use std::io::{self, Read, Write};
 fn main() {
     promise_world();
 }
@@ -18,13 +17,15 @@ fn promise_world() {
         println!("4. 🔄 Reaffirm Your Promise");
         println!("5. 🚪 Exit\n");
 
-        //Here give choices:
         let mut choice = String::new();
+
+        print!("Enter your option: ");
+        io::stdout().flush().unwrap();
+
         io::stdin()
             .read_line(&mut choice)
             .expect("Failed to read line");
 
-        // let choice: u8 = choice.trim().parse().expect("Please type number!");
         let choice: u8 = if let Ok(num) = choice.trim().parse() {
             num
         } else {
